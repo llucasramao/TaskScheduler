@@ -5,7 +5,7 @@ const conexao = mysql.createConnection({
     port: '3306',
     user: 'root',
     password: 'mysql',
-    database: 'tasks'
+    database: 'NodeJS'
 })
 
 module.exports = conexao

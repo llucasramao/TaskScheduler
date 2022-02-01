@@ -21,8 +21,14 @@ module.exports = app => {
 
     app.post('/tasks', (req, res) => { // Adiciona nova tarefa
         const tasks = req.body
-
-        Tasks.add(tasks, res)
+        client = tasks.client
+        number = tasks.number
+        if (tasks.status){
+            status = tasks.status
+        } else {
+            status = 'Ativo'
+        }
+        Tasks.add(tasks, res, client, number, status)
     })
 
     app.patch('/tasks/id/:id', (req, res) => { // Altera Tarefas

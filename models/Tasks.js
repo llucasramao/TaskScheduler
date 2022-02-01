@@ -3,10 +3,9 @@ const moment = require('moment')
 const conexao = require('../infra/conexao')
 
 class Tasks {
-    add(tasks, res) {
-        tasks.initialDate = moment().format('YYYY-MM-DD HH:MM:SS')
-        const sql = 'INSERT INTO tasks SET ?'
-
+    add(tasks, res, client, number, status) {
+        tasks.initialDate = moment().format('YYYY-MM-DD')
+        const sql = `INSERT INTO tasks (client, number, status, initialDate, DoisD, TrintaD, SessentaD) VALUES ('${client}', ${number}, '${status}', CAST(NOW() AS DATE), ADDDATE(NOW(), INTERVAL 2 DAY), ADDDATE(NOW(), INTERVAL 30 DAY), ADDDATE(NOW(), INTERVAL 60 DAY))`
         conexao.query(sql, tasks, (err, result) => {
             if (err) {
                 res.status(400).json(err)
@@ -32,8 +31,6 @@ class Tasks {
 
     searchId(id, res) {
         const sql = `SELECT * FROM tasks WHERE id=${id}`
-
-
         conexao.query(sql, (erro, resultados) => {
             const atendimento = resultados[0]
             if (erro) {
@@ -46,7 +43,6 @@ class Tasks {
 
     searchClient(client, res) {
         const sql = `SELECT * FROM tasks WHERE client='${client}'`
-
         conexao.query(sql, (err, result) => {
             if (err) {
                 res.status(400).json(err)
@@ -73,7 +69,6 @@ class Tasks {
 
     delete(id, res) {
         const sql = 'DELETE FROM tasks  WHERE id=?'
-
         conexao.query(sql, id, (erro, resultados) => {
             if (erro) {
                 res.status(400).json(erro)
