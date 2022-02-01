@@ -5,7 +5,6 @@ const teste = require('../scheduler/index')
 module.exports = app => {
     app.get('/tasks', (req, res) => { // Lista todos os agendamentos
         Tasks.list(res)
-        teste.teste()
     })
 
     app.get('/tasks/id/:id', (req, res) => { // Procura tarefas por ID
