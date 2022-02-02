@@ -1,6 +1,7 @@
 const customExpress = require('./config/customExpress')
 const conexao = require('./infra/conexao')
 const Tableas = require('./infra/tabelas')
+const cron = require('./scheduler/cron')
 
 conexao.connect(erro => {
     if(erro){
