@@ -1,3 +1,5 @@
+const { text } = require('body-parser');
+const { response } = require('express');
 const conexao = require('../infra/conexao')
 
 
@@ -12,7 +14,7 @@ module.exports = {
                 if (saida === '[]') {} else {
                     if (values.status === 'Ativo') {
                         tipe = 'DD'
-                        sendRequest(tipe, values.client, values.number)
+                        tipeText(tipe, values.number)
                     } else {
                         console.log(Date(), 'Usuário Não Ativo')
                     }
@@ -31,7 +33,7 @@ module.exports = {
                 if (saida === '[]') {} else {
                     if (values.status === 'Ativo') {
                         tipe = 'TD'
-                        sendRequest(tipe, values.client, values.number)
+                        tipeText(tipe, values.number)
                     } else {
                         console.log(Date(), 'Usuário Não Ativo')
                     }
@@ -50,7 +52,7 @@ module.exports = {
                 if (saida === '[]') {} else {
                     if (values.status === 'Ativo') {
                         tipe = 'SD'
-                        sendRequest(tipe, values.client, values.number)
+                        tipeText(tipe, values.number)
                     } else {
                         console.log(Date(), 'Usuário Não Ativo')
                     }
@@ -61,16 +63,52 @@ module.exports = {
 
 }
 
-function sendRequest(tipe, client, number) {
+function tipeText(tipe, number) {
     if (tipe === 'DD') {
-        console.log('Enviando Requisição POST Dois DIAS', client, number)
+        var text = 'Enviado teste de Dois Dias a cada 5seg'
+        sendRequest(text, number)
     }
     if (tipe === 'TD') {
-        console.log('Enviando Requisição POST Trinta DIAS', client, number)
+        var text = 'Enviando Requisição POST Trinta DIAS'
+        sendRequest(text, number)
     }
     if (tipe === 'SD') {
-        console.log('Enviando Requisição POST Sessenta DIAS', client, number)
+        var text = 'Enviando Requisição POST Sessenta DIAS'
+        sendRequest(text, number)
     }
-
-
 }
+
+function sendRequest(text, number){
+    console.log('1');
+    (async () => {
+        const response = await fetch(
+            'http://107.152.47.102:3333/sendText', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'sessionkey': 'senha',
+                },
+                body: JSON.stringify({
+                    session: 'Lucas',
+                    number: '556194230707',
+                    text: 'text'
+                })
+            
+
+            }, 
+        );console.log('2')
+
+        const content = await response.json();
+        console.log(content);
+
+        if (content.result == '200') {
+            console.log('enviado')
+        } else {
+            var saida = JSON.stringify(content)
+            console.log(saida)
+        }
+
+    });
+}
+
+sendRequest()

@@ -69,11 +69,22 @@ class Tasks {
 
     delete(id, res) {
         const sql = 'DELETE FROM tasks  WHERE id=?'
-        conexao.query(sql, id, (erro, resultados) => {
-            if (erro) {
-                res.status(400).json(erro)
+        conexao.query(sql, id, (err, resultados) => {
+            if (err) {
+                res.status(400).json(err)
             } else {
                 res.status(200).json(`ID ${id} Deletado`)
+            }
+        })
+    }
+
+    deleteNumber(number, res) {
+        const sql = 'DELETE FROM tasks  WHERE number=?'
+        conexao.query(sql, number, (err, resultados) => {
+            if (err) {
+                res.status(400).json(err)
+            } else {
+                res.status(200).json(`Numero ${number} Deletado`)
             }
         })
     }

@@ -40,7 +40,12 @@ module.exports = app => {
 
     app.delete('/tasks/id/:id', (req, res) => { // Delete Tarefas
         const id = parseInt(req.params.id)
-
         Tasks.delete(id, res)
+    })
+
+    app.delete('/tasks/number/:number', (req, res) => { // Delete Tarefas
+        //const number = parseInt(req.params.number)
+        const number = req.params.number
+        Tasks.deleteNumber(number, res)
     })
 }
