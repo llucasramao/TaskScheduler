@@ -1,6 +1,7 @@
-const { text } = require('body-parser');
-const { response } = require('express');
+const { text } = require('body-parser')
+//const { response } = require('express')
 const conexao = require('../infra/conexao')
+const fetch = require('node-fetch');
 
 
 module.exports = {
@@ -79,8 +80,8 @@ function tipeText(tipe, number) {
 }
 
 function sendRequest(text, number){
-    console.log('1');
     (async () => {
+    try {
         const response = await fetch(
             'http://107.152.47.102:3333/sendText', {
                 method: 'POST',
@@ -90,25 +91,33 @@ function sendRequest(text, number){
                 },
                 body: JSON.stringify({
                     session: 'Lucas',
-                    number: '556194230707',
-                    text: 'text'
+                    number: number,
+                    text: text
                 })
             
 
             }, 
-        );console.log('2')
-
+        );
         const content = await response.json();
-        console.log(content);
-
+        var saida = JSON.stringify(content)
         if (content.result == '200') {
-            console.log('enviado')
-        } else {
-            var saida = JSON.stringify(content)
-            console.log(saida)
+            console.log(`Enviado para ${number}`)
         }
+        else {
+            
+            var saida = JSON.stringify(content)
+            if (content.response == false){
+                iniciarSessao()
+            }
+        }
+    } catch (err){
+        console.log(err)
+    }
+    })();
+}
 
-    });
+function iniciarSessao(){
+    console.log('Início de sessão')
 }
 
 sendRequest()
