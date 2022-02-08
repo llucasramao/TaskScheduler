@@ -1,6 +1,4 @@
-const atendimentos = require('../models/Tasks')
 const Tasks = require('../models/Tasks')
-const teste = require('../scheduler/index')
 
 module.exports = app => {
     app.get('/tasks', (req, res) => { // Lista todos os agendamentos
@@ -31,6 +29,23 @@ module.exports = app => {
         Tasks.add(tasks, res, client, number, status)
     })
 
+    app.post('/schMessage', (req, res) => {
+        const msg = req.body
+        client = msg.client
+        number = msg.number
+        message = msg.message
+        date = msg.date
+        Tasks.schMessage(msg, res, client, number, message, date)
+    })
+
+    app.post ('/sendMessage', (req, res) => {
+        const msg = req.body
+        client = msg.client
+        number = msg.number
+        message = msg.message
+        Tasks.sendMessage(msg, res, client, number, message)
+    })
+
     app.patch('/tasks/id/:id', (req, res) => { // Altera Tarefas
         const id = parseInt(req.params.id)
         const value = req.body
@@ -49,3 +64,5 @@ module.exports = app => {
         Tasks.deleteNumber(number, res)
     })
 }
+
+

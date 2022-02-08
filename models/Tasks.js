@@ -5,7 +5,7 @@ const conexao = require('../infra/conexao')
 class Tasks {
     add(tasks, res, client, number, status) {
         tasks.initialDate = moment().format('YYYY-MM-DD')
-        const sql = `INSERT INTO tasks (client, number, status, initialDate, DoisD, TrintaD, SessentaD) VALUES ('${client}', ${number}, '${status}', CAST(NOW() AS DATE), ADDDATE(NOW(), INTERVAL 2 DAY), ADDDATE(NOW(), INTERVAL 30 DAY), ADDDATE(NOW(), INTERVAL 60 DAY))`
+        const sql = `INSERT INTO tasks (client, number, status, initialDate, DoisD, TrintaD, SessentaD) VALUES ('${client}', ${number}, '${status}', ADDDATE(NOW(), INTERVAL 0 DAY), ADDDATE(NOW(), INTERVAL 2 DAY), ADDDATE(NOW(), INTERVAL 30 DAY), ADDDATE(NOW(), INTERVAL 60 DAY))`
         conexao.query(sql, tasks, (err, result) => {
             if (err) {
                 res.status(400).json(err)
@@ -88,5 +88,37 @@ class Tasks {
             }
         })
     }
+
+    sendMessage(msg, res, client, number, message){
+        const sql = `INSERT INTO messages (client, number, message, date) VALUES ('${client}', '${number}', '${message}', ADDDATE(NOW(), INTERVAL 0 DAY) )` //ADDDATE(NOW(), INTERVAL 0 DAY)
+        conexao.query(sql, msg, (err, result) => {
+            if (err) {
+                res.status(400).json(err)
+                console.log('erro')
+            } else {
+                res.status(201).json(result)
+            }
+        })
+
+        sendMsg(client, number, message)
+    }
+
+    schMessage(msg, res, client, number, message, date){
+        const sql = `INSERT INTO schMessage (client, number, message, date) VALUES ('${client}', ${number}, '${message}', '${date}')`
+        conexao.query(sql, msg, (err, result) => {
+            if (err){
+                res.status(400).json(err)
+            } else {
+                res.status(200).json(result)
+            }
+        })
+    }
+
 }
+
+
 module.exports = new Tasks
+
+function sendMsg(client, number, message){
+    console.log(`Envio de mensagem para ${client}, ${number}, ${message}`)
+}

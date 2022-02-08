@@ -1,8 +1,15 @@
 const schedule = require('node-schedule')
-const idx = require('./index')
+const DTS = require('./DTSSender')
 
+function DTSSender() {
+    schedule.scheduleJob('0 * * * * *', () => {
+        DTS.DoisD()
+        DTS.TrintaD()
+        DTS.SessentaD()
+    })
+}
 
-function doisDias(oi) {
+function DTSSender() {
     schedule.scheduleJob('0 * * * * *', () => {
         idx.DoisD()
         idx.TrintaD()
@@ -10,4 +17,4 @@ function doisDias(oi) {
     })
 }
 
-doisDias()
+DTSSender()

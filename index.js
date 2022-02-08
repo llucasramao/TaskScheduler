@@ -13,14 +13,11 @@ conexao.connect(erro => {
 
 
         const options = {
-            key: fs.readFileSync("/etc/letsencrypt/live/desen.api.spacewebso.com.br/privkey.pem"),
-            cert: fs.readFileSync("/etc/letsencrypt/live/desen.api.spacewebso.com.br/cert.pem")
+            key: fs.readFileSync("./certificates/privkey.pem"),
+            cert: fs.readFileSync("./certificates/cert.pem")
             };
 
         const app = customExpress()
-        //app.listen(3000, () => console.log('Servidor rodando na porta 3000'))
-        https.createServer(options, app).listen(3333);
-
-
+        https.createServer(options, app).listen(3000);
     }
 })

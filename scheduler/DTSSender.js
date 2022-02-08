@@ -1,12 +1,11 @@
 const { text } = require('body-parser')
-//const { response } = require('express')
 const conexao = require('../infra/conexao')
 const fetch = require('node-fetch');
 
 
 module.exports = {
     DoisD() {
-        const sql = 'SELECT * FROM nodejs.tasks where CAST(NOW() AS DATE) = CAST(NOW() AS DATE)'
+        const sql = 'SELECT * FROM nodejs.tasks where CAST(DoisD AS DATE) = CAST(NOW() AS DATE)'
         conexao.query(sql, (err, result, fields) => {
             if (err) throw err;
             x = 0
