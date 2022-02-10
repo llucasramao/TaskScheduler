@@ -29,6 +29,20 @@ class Tasks {
         })
     }
 
+    listsch(res) {
+        const sql = 'SELECT * FROM schmessage'
+
+        conexao.query(sql, (erro, resultados) => {
+
+            if (erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(resultados)
+            }
+
+        })
+    }
+
     searchId(id, res) {
         const sql = `SELECT * FROM tasks WHERE id=${id}`
         conexao.query(sql, (erro, resultados) => {
@@ -104,7 +118,8 @@ class Tasks {
     }
 
     schMessage(msg, res, client, number, message, date){
-        const sql = `INSERT INTO schMessage (client, number, message, date) VALUES ('${client}', ${number}, '${message}', '${date}')`
+        let date2 = moment(date, 'DD/MM/YYYY HH').format('YYYY-MM-DD HH')
+        const sql = `INSERT INTO schMessage (client, number, message, date) VALUES ('${client}', ${number}, '${message}', '${date2}')`
         conexao.query(sql, msg, (err, result) => {
             if (err){
                 res.status(400).json(err)

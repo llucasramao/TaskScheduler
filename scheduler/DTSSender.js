@@ -6,11 +6,11 @@ const fetch = require('node-fetch');
 module.exports = {
     DoisD() {
         const sql = 'SELECT * FROM nodejs.tasks where CAST(DoisD AS DATE) = CAST(NOW() AS DATE)'
-        conexao.query(sql, (err, result, fields) => {
+        conexao.query(sql, (err, result) => {
             if (err) throw err;
             x = 0
             saida = JSON.stringify(result)
-            result.forEach(function (values, qnt, array) {
+            result.forEach(function (values) {
                 if (saida === '[]') {} else {
                     if (values.status === 'Ativo') {
                         tipe = 'DD'
@@ -43,7 +43,7 @@ module.exports = {
     },
 
     SessentaD() {
-        const sql = 'SELECT * FROM nodejs.tasks where CAST(SessentaD AS DATE) = CAST(NOW() AS DATE)'
+        const sql = 'SELECT * FROM nodejs.tasks WHERE CAST(SessentaD AS DATE) = CAST(NOW() AS DATE)'
         conexao.query(sql, (err, result, fields) => {
             if (err) throw err;
             x = 0
@@ -60,6 +60,16 @@ module.exports = {
             })
         });
     },
+
+    schMessage(text){
+        const sql = 'SELECT * FROM nodejs.schmessage WHERE CAST(date AS DATE) = ADDDATE(now(), INTERVAL 0 DAY)'
+        conexao.query(sql, (err, result) => {
+            if (err) throw err;
+            result.forEach(function (){
+                sendRequest(text, number)
+            })
+        })
+    }
 
 }
 
@@ -79,40 +89,7 @@ function tipeText(tipe, number) {
 }
 
 function sendRequest(text, number){
-    (async () => {
-    try {
-        const response = await fetch(
-            'http://107.152.47.102:3333/sendText', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'sessionkey': 'senha',
-                },
-                body: JSON.stringify({
-                    session: 'Lucas',
-                    number: number,
-                    text: text
-                })
-            
-
-            }, 
-        );
-        const content = await response.json();
-        var saida = JSON.stringify(content)
-        if (content.result == '200') {
-            console.log(`Enviado para ${number}`)
-        }
-        else {
-            
-            var saida = JSON.stringify(content)
-            if (content.response == false){
-                iniciarSessao()
-            }
-        }
-    } catch (err){
-        console.log(err)
-    }
-    })();
+    console.log(`Enviando pra: ${number} Texto: ${text}`)
 }
 
 function iniciarSessao(){

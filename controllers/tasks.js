@@ -5,6 +5,10 @@ module.exports = app => {
         Tasks.list(res)
     })
 
+    app.get('/schmessage', (req, res) => { // Lista todos os agendamentos
+        Tasks.listsch(res)
+    })
+
     app.get('/tasks/id/:id', (req, res) => { // Procura tarefas por ID
         const id = parseInt(req.params.id)
 
@@ -59,7 +63,6 @@ module.exports = app => {
     })
 
     app.delete('/tasks/number/:number', (req, res) => { // Delete Tarefas
-        //const number = parseInt(req.params.number)
         const number = req.params.number
         Tasks.deleteNumber(number, res)
     })

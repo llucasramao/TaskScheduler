@@ -1,8 +1,8 @@
 const customExpress = require('./config/customExpress')
 const conexao = require('./infra/conexao')
 const Tableas = require('./infra/tabelas')
-var https = require('https')
-var fs = require('fs')
+const https = require('https')
+const fs = require('fs')
 
 conexao.connect(erro => {
     if(erro){
