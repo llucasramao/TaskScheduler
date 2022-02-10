@@ -5,7 +5,7 @@ module.exports = app => {
         Tasks.list(res)
     })
 
-    app.get('/schmessage', (req, res) => { // Lista todos os agendamentos
+    app.get('/schMessage', (req, res) => { // Lista todos os agendamentos
         Tasks.listsch(res)
     })
 
