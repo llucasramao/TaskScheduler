@@ -9,10 +9,11 @@ function DTSSender() {
     })
 }
 
-function DTSSender() {
+function schSender() {
     schedule.scheduleJob('0 0 * * *	', () => {
         DTS.schMessage()
     })
 }
 
 DTSSender()
+schSender()
