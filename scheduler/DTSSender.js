@@ -1,6 +1,5 @@
-const { text } = require('body-parser')
 const conexao = require('../infra/conexao')
-const fetch = require('node-fetch');
+const sender = require('./sender')
 
 
 module.exports = {
@@ -61,11 +60,11 @@ module.exports = {
         });
     },
 
-    schMessage(text){
+    schMessage(text) {
         const sql = 'SELECT * FROM nodejs.schmessage WHERE CAST(date AS DATE) = ADDDATE(now(), INTERVAL 0 DAY)'
         conexao.query(sql, (err, result) => {
             if (err) throw err;
-            result.forEach(function (){
+            result.forEach(function () {
                 sendRequest(text, number)
             })
         })
@@ -75,7 +74,7 @@ module.exports = {
 
 function tipeText(tipe, number) {
     if (tipe === 'DD') {
-        var text = 'Enviado teste de Dois Dias a cada 5seg'
+        var text = 'Enviando Requisição POST Dois DIAS'
         sendRequest(text, number)
     }
     if (tipe === 'TD') {
@@ -88,12 +87,10 @@ function tipeText(tipe, number) {
     }
 }
 
-function sendRequest(text, number){
-    console.log(`Enviando pra: ${number} Texto: ${text}`)
+function sendRequest(text, number) {
+    sender.sendMsg(text, number)
 }
 
-function iniciarSessao(){
-    console.log('Início de sessão')
+function iniciarSessao() {
+    console.log('Necessário Iníciar Sessão')
 }
-
-sendRequest()

@@ -25,7 +25,7 @@ module.exports = app => {
         const tasks = req.body
         client = tasks.client
         number = tasks.number
-        if (tasks.status){
+        if (tasks.status) {
             status = tasks.status
         } else {
             status = 'Ativo'
@@ -42,7 +42,7 @@ module.exports = app => {
         Tasks.schMessage(msg, res, client, number, message, date)
     })
 
-    app.post ('/sendMessage', (req, res) => {
+    app.post('/sendMessage', (req, res) => {
         const msg = req.body
         client = msg.client
         number = msg.number
@@ -67,5 +67,3 @@ module.exports = app => {
         Tasks.deleteNumber(number, res)
     })
 }
-
-

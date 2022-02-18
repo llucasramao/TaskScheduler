@@ -1,6 +1,7 @@
 const res = require('express/lib/response')
 const moment = require('moment')
 const conexao = require('../infra/conexao')
+const sender = require ('../scheduler/sender')
 
 class Tasks {
     add(tasks, res, client, number, status) {
@@ -103,11 +104,11 @@ class Tasks {
         })
     }
 
-    schMessage(msg, res, client, number, message, date){
+    schMessage(msg, res, client, number, message, date) {
         let date2 = moment(date, 'DD/MM/YYYY HH').format('YYYY-MM-DD HH')
         const sql = `INSERT INTO schMessage (client, number, message, date) VALUES ('${client}', ${number}, '${message}', '${date2}')`
         conexao.query(sql, msg, (err, result) => {
-            if (err){
+            if (err) {
                 res.status(400).json(err)
             } else {
                 res.status(200).json(result)
@@ -115,7 +116,7 @@ class Tasks {
         })
     }
 
-    sendMessage(msg, res, client, number, message){
+    sendMessage(msg, res, client, number, message) {
         const sql = `INSERT INTO messages (client, number, message, date) VALUES ('${client}', '${number}', '${message}', ADDDATE(NOW(), INTERVAL 0 DAY) )` //ADDDATE(NOW(), INTERVAL 0 DAY)
         conexao.query(sql, msg, (err, result) => {
             if (err) {
@@ -126,39 +127,8 @@ class Tasks {
             }
         })
 
-        sendMsg(client, number, message)
+        sender.sendMsg(client, number, message)
     }
 }
 
 module.exports = new Tasks
-
-function sendMsg(client, number, message){
-    var axios = require('axios');
-    var data = JSON.stringify({
-    "phone": number,
-    "message": message,
-    "isGroup": false
-    });
-
-    var config = {
-    method: 'post',
-    url: `http://api.spacewebso.com.br:2121/api/Lucas/send-message`,
-    headers: { 
-        'Content-Type': 'application/json', 
-        'Authorization': `Bearer TOKEN-AQUI!`
-    },
-    data : data
-    };
-
-    axios(config)
-    .then(function (response) {
-    if (response.data.status == 'success'){
-        console.log('Mensagem Enviada -', `Numero: ${number} Msg: ${message}`)
-    } else {
-        console.log('Erro: response-not-success')
-    }
-    })
-    .catch(function (error) {
-    console.log('Erro: catch-function-error');
-    });
-}
