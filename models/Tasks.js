@@ -119,11 +119,15 @@ class Tasks {
     sendMessage(msg, res, client, number, message) {
         const sql = `INSERT INTO messages (client, number, message, date) VALUES ('${client}', '${number}', '${message}', ADDDATE(NOW(), INTERVAL 0 DAY) )` //ADDDATE(NOW(), INTERVAL 0 DAY)
         conexao.query(sql, msg, (err, result) => {
-            if (err) {
-                res.status(400).json(err)
-                console.log('erro')
+            if (res == null){
+                console.log('No res')
             } else {
-                res.status(200).json(result)
+                if (err) {
+                    res.status(400).json(err)
+                    console.log('erro')
+                } else {
+                    res.status(200).json(result)
+                }
             }
         })
 

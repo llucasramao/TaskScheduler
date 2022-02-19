@@ -1,4 +1,5 @@
-const conexao = require('../infra/conexao')
+const conexao = require('../infra/conexao');
+const Tasks = require('../models/Tasks');
 const sender = require('./sender')
 
 
@@ -23,7 +24,7 @@ module.exports = {
     },
 
     TrintaD() {
-        const sql = 'SELECT * FROM nodejs.tasks where CAST(TrintaD AS DATE) = CAST(NOW() AS DATE)'
+        const sql = 'SELECT * FROM nodejs.tasks where CAST(NOW() AS DATE) = CAST(NOW() AS DATE)'//'SELECT * FROM nodejs.tasks where CAST(TrintaD AS DATE) = CAST(NOW() AS DATE)'
         conexao.query(sql, (err, result, fields) => {
             if (err) throw err;
             x = 0
@@ -32,7 +33,7 @@ module.exports = {
                 if (saida === '[]') {} else {
                     if (values.status === 'Ativo') {
                         tipe = 'TD'
-                        tipeText(tipe, values.number)
+                        tipeText(tipe, values.number, values.client)
                     } else {
                         console.log(Date(), 'Usuário Não Ativo')
                     }
@@ -51,7 +52,7 @@ module.exports = {
                 if (saida === '[]') {} else {
                     if (values.status === 'Ativo') {
                         tipe = 'SD'
-                        tipeText(tipe, values.number)
+                        tipeText(tipe, values.number, values.client)
                     } else {
                         console.log(Date(), 'Usuário Não Ativo')
                     }
@@ -60,37 +61,30 @@ module.exports = {
         });
     },
 
-    schMessage(text) {
+    schMessage(text) { // Necessário fazer query para saber qual mensagem será enviada
         const sql = 'SELECT * FROM nodejs.schmessage WHERE CAST(date AS DATE) = ADDDATE(now(), INTERVAL 0 DAY)'
         conexao.query(sql, (err, result) => {
             if (err) throw err;
             result.forEach(function () {
-                sendRequest(text, number)
+                res = null
+                Tasks.sendMessage('', null, client, number, message)
             })
         })
     }
 
 }
 
-function tipeText(tipe, number) {
+function tipeText(tipe, number, client) {
     if (tipe === 'DD') {
-        var text = 'Enviando Requisição POST Dois DIAS'
-        sendRequest(text, number)
+        var message = 'Enviando Requisição POST Dois DIAS'
+        Tasks.sendMessage('', null, client, number, message)
     }
     if (tipe === 'TD') {
-        var text = 'Enviando Requisição POST Trinta DIAS'
-        sendRequest(text, number)
+        var message = 'Enviando Requisição POST Trinta DIAS'
+        Tasks.sendMessage('', null,client, number, message)
     }
     if (tipe === 'SD') {
-        var text = 'Enviando Requisição POST Sessenta DIAS'
-        sendRequest(text, number)
+        var message = 'Enviando Requisição POST Sessenta DIAS'
+        Tasks.sendMessage('', null, client, number, message)
     }
-}
-
-function sendRequest(text, number) {
-    sender.sendMsg(text, number)
-}
-
-function iniciarSessao() {
-    console.log('Necessário Iníciar Sessão')
 }
