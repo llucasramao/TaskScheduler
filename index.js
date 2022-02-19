@@ -3,11 +3,11 @@ const conexao = require('./infra/conexao')
 const Tableas = require('./infra/tabelas')
 const https = require('https')
 const fs = require('fs')
+const cron = require('./scheduler/cron')
 
 const ssl = 0;
 if (ssl == 0){http()}
 if (ssl == 1){httpsec()}
-else{console.log('Defina o ssl no index.js (0 para não | 1 para sim)')}
 
 function http(){
     conexao.connect(erro => {
@@ -38,3 +38,6 @@ function httpsec(){
         }
     })
 }
+
+cron.DTSSender()
+cron.schSender()
