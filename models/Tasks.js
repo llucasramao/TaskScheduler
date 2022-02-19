@@ -106,7 +106,7 @@ class Tasks {
 
     schMessage(msg, res, client, number, message, date) {
         let date2 = moment(date, 'DD/MM/YYYY HH').format('YYYY-MM-DD HH')
-        const sql = `INSERT INTO schMessage (client, number, message, date) VALUES ('${client}', ${number}, '${message}', '${date2}')`
+        const sql = `INSERT INTO schmessage (client, number, message, date) VALUES ('${client}', ${number}, '${message}', '${date2}')`
         conexao.query(sql, msg, (err, result) => {
             if (err) {
                 res.status(400).json(err)
