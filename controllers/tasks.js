@@ -39,7 +39,8 @@ module.exports = app => {
         number = msg.number
         message = msg.message
         date = msg.date
-        Tasks.schMessage(msg, res, client, number, message, date)
+        time = msg.time
+        Tasks.schMessage(msg, res, client, number, message, date, time)
     })
 
     app.post('/sendMessage', (req, res) => {

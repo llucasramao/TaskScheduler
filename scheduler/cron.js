@@ -14,7 +14,7 @@ module.exports = {
 
     schSender() {
         console.log('Cron schMessage OK!')
-        schedule.scheduleJob('0 0 * * *	', () => {
+        schedule.scheduleJob('* * * * * *', () => {
             DTS.schMessage()
             
         })
