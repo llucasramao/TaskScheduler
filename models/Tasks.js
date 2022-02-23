@@ -34,7 +34,6 @@ class Tasks {
         const sql = 'SELECT * FROM schmessage'
 
         conexao.query(sql, (erro, resultados) => {
-
             if (erro) {
                 res.status(400).json(erro)
             } else {
@@ -121,7 +120,7 @@ class Tasks {
         const sql = `INSERT INTO messages (client, number, message, date) VALUES ('${client}', '${number}', '${message}', ADDDATE(NOW(), INTERVAL 0 DAY) )` //ADDDATE(NOW(), INTERVAL 0 DAY)
         conexao.query(sql, msg, (err, result) => {
             if (res == null){
-                console.log('No res')
+                //console.log('No res')
             } else {
                 if (err) {
                     res.status(400).json(err)

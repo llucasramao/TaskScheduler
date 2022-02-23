@@ -4,7 +4,7 @@ const DTS = require('./DTSSender')
 module.exports = {
     DTSSender() {
         console.log('Cron DTSSender OK!')
-        schedule.scheduleJob('* * * * * *', () => {//('0 0 12 * * *', () => {
+        schedule.scheduleJob('0 0 12 * * *', () => {
             DTS.DoisD()
             DTS.TrintaD()
             DTS.SessentaD()
@@ -14,7 +14,7 @@ module.exports = {
 
     schSender() {
         console.log('Cron schMessage OK!')
-        schedule.scheduleJob('* * * * * *', () => {
+        schedule.scheduleJob('0 * * * * *', () => {
             DTS.schMessage()
             
         })

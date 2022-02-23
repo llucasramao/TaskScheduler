@@ -62,12 +62,13 @@ module.exports = {
     },
 
     schMessage(text) { // Necessário fazer query para saber qual mensagem será enviada e Ler data certa
-        const sql = 'SELECT * FROM nodejs.schmessage WHERE CAST(date AS DATE) = ADDDATE(now(), INTERVAL 0 DAY)'
+        const sql = "SELECT * FROM nodejs.schmessage WHERE DATE_FORMAT(date, '%YY-%m-%d %k:%i') = DATE_FORMAT(now(), '%YY-%m-%d %k:%i')"
         conexao.query(sql, (err, result) => {
+            //console.log('Realizando query')
             if (err) throw err;
-            result.forEach(function () {
+            result.forEach(function (values) {
                 res = null
-                Tasks.sendMessage('', null, client, number, message)
+                Tasks.sendMessage('', null, values.client, values.number, values.message)
             })
         })
     }
