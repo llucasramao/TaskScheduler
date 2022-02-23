@@ -5,7 +5,7 @@ const https = require('https')
 const fs = require('fs')
 const cron = require('./scheduler/cron')
 
-const ssl = 1;
+const ssl = 0;
 if (ssl == 0){http()}
 if (ssl == 1){httpsec()}
 

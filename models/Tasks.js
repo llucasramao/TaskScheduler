@@ -1,7 +1,8 @@
 const res = require('express/lib/response')
 const moment = require('moment')
 const conexao = require('../infra/conexao')
-const sender = require ('../scheduler/sender')
+const sender = require('../scheduler/sender')
+const axios = require('axios')
 
 class Tasks {
     add(tasks, res, client, number, status) {
@@ -38,6 +39,7 @@ class Tasks {
                 res.status(400).json(erro)
             } else {
                 res.status(200).json(resultados)
+                console.log(resultados)
             }
 
         })
@@ -119,8 +121,8 @@ class Tasks {
     sendMessage(msg, res, client, number, message) {
         const sql = `INSERT INTO messages (client, number, message, date) VALUES ('${client}', '${number}', '${message}', ADDDATE(NOW(), INTERVAL 0 DAY) )` //ADDDATE(NOW(), INTERVAL 0 DAY)
         conexao.query(sql, msg, (err, result) => {
-            if (res == null){
-                //console.log('No res')
+            if (res == null) {
+                console.log('No res')
             } else {
                 if (err) {
                     res.status(400).json(err)

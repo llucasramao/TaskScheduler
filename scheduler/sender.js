@@ -1,5 +1,7 @@
 module.exports = {
 
+    
+
     sendMsg(client, number, message) {
         var axios = require('axios');
         var data = JSON.stringify({
@@ -8,12 +10,15 @@ module.exports = {
             "isGroup": false
         });
 
+        var token = '$2b$10$o8KptoEXotQi1OZM9TRlyuYY4IpoRnBSoakpxbW3CpPCgvGzCPNoq';
+        var session = 'botSpaceWeb';
+
         var config = {
             method: 'post',
-            url: `http://api.spacewebso.com.br:2121/api/Lucas/send-message`,
+            url: `http://api.spacewebso.com.br:2121/api/${session}/send-message`,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer $2b$10$lrKXGrSB25lTRDZIexhkCeBuLbtoDKoVuMPrJSSPuIQTno2C.SZ7O`
+                'Authorization': `Bearer ${token}`
             },
             data: data
         };
